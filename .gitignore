@@ -1,2 +1,4 @@
 *.dat 
 Tryanderror/
+data/MuSCAT2_response.csv 
+data/stellar_surface.png
