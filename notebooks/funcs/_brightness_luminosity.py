@@ -42,4 +42,41 @@ def brightness_star(spectrum_star,spectrumerror_star, T_star, Terror_star, limit
         #brighntess out of spectrum
         brightness_star = np.asarray([np.nansum(flux_TRAP[limit[i][0]:limit[i][1]]) for i in range(len(dfs)) ] ) * 1e7 #erg Angstrom cm^-2  conversion constant 
         brightnesserror_star = np.asarray([np.nansum(flux_TRAP_error[limiterror[i][0]:limiterror[i][1]]) for i in range(len(dfs)) ] ) * 1e7
-    return brightness_star, brightnesserror_star
+    return brightness_star, brightnesserror_star 
+    
+    
+def brightnessnorm_flare(timeobs, dfs):
+    
+    '''
+    Normalized brightness calculater of the flare contribution.
+
+    Parameters
+    -------------
+    timeobs : 1-d array
+        The duration of the flare JD [d]
+    dfs: Pandas dataframe 
+      Dataframe including all the flaretables for every flare and passband. 
+   
+        
+    Return 
+    ----------
+    1-d array
+        brightness of flare behind the detector in the telescope.
+    1-d array
+        error on brightness of flare behind the detector in the telescope.
+    '''
+    
+    brightness_flare,brightnesserror_flare = [],[]
+    i = 0
+    for df in dfs:
+        for flare in range(len(timeobs)):
+            timetime = timeobs[flare][aflare1(timeobs[flare], df.Tpeak[flare], df.Fwhm[flare], df.Ampl[flare]) > 0]
+            T = timetime[-1] - timetime[0] 
+            brightnessflare_norm = tp(aflare1(timeobs[flare], df.Tpeak[flare], df.Fwhm[flare], df.Ampl[flare])) * 1/N 
+            brightnessflare_normerror = tp(aflare1(timeobs[flare], df.Tpeak[flare], np.max([df.sFwhm[flare],df.sfwhm[flare]]), np.max([df.sAmpl[flare],df.sampl[flare]]))) * 1/N  
+        i = i + 1
+
+    brightness_flare = np.asarray(brightness_flare)
+    brightnesserror_flare = np.asarray(brightnesserror_flare)
+    
+    return brightness_flare, brightnesserror_flare
