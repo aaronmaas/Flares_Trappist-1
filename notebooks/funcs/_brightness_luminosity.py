@@ -82,3 +82,36 @@ def brightnessnorm_flare(timeobs, dfs):
     brightnesserror_flare = np.asarray(brightnesserror_flare)
     
     return brightness_flare, brightnesserror_flare
+    
+    
+def brightness_flare(brightnessnorm_flare, brightness_star,brightnesserrornorm_flare, brightnesserror_star): 
+    
+    '''
+    Total brightness calculator for flare event for each photometric filter used. 
+
+    Parameters
+    -------------
+    brightnessnorm_flare : 1-d array
+        Integrated normalized brightness of the flare  
+    brightness_star: 1-d array
+        Integrated brightness of the star 
+    brightnesserrornorm_flare: 1-d array
+        Error on integrated normalized brightness of the flare 
+    brightnesserror_star: 1-d array
+    	Error on Integrated brightness of the star 
+        
+    Return 
+    ----------
+    1-d array
+        total brightness of flare
+    1-d array
+        Error on total brightness of flare
+    
+    '''
+    
+    
+    brightnessflare_total = brightnessnorm_flare * brightness_star
+    brightnesserrortotal_flare = np.sqrt((brightness_star*brightnesserrornorm_flare)**2 + \
+                                         (brightnessnorm_flare  * brightnesserror_star)**2)
+    
+    return brightnessflare_total, brightnesserrortotal_flare
