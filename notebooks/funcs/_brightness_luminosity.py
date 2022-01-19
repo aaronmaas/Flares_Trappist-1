@@ -1,4 +1,6 @@
 import numpy as np
+from aflare1_Davenport import aflare1
+from scipy.integrate import trapz as tp
 
 
 def brightness_star(spectrum_star,spectrumerror_star, T_star, Terror_star, limit, limiterror, model = "None"):
