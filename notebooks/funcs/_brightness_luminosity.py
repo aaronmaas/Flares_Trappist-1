@@ -1,5 +1,5 @@
 import numpy as np
-from .funcs.alflare1 import aflare1
+from funcs.alflare1 import aflare1
 from scipy.integrate import trapz as tp
 
 
