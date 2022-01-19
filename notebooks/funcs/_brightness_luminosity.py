@@ -74,8 +74,8 @@ def brightnessnorm_flare(timeobs, dfs):
         for flare in range(len(timeobs)):
             timetime = timeobs[flare][aflare1(timeobs[flare], df.Tpeak[flare], df.Fwhm[flare], df.Ampl[flare]) > 0]
             T = timetime[-1] - timetime[0] 
-            brightness.append(tp(aflare1(timeobs[flare], df.Tpeak[flare], df.Fwhm[flare], df.Ampl[flare]))  * 1/T  )
-            brightnesserror.append(tp(aflare1(timeobs[flare], df.Tpeak[flare], np.max([df.sFwhm[flare],df.sfwhm[flare]]), np.max([df.sAmpl[flare],df.sampl[flare]]))) * 1/T)
+            brightness_flare.append(tp(aflare1(timeobs[flare], df.Tpeak[flare], df.Fwhm[flare], df.Ampl[flare]))  * 1/T  )
+            brightnesserror_flare.append(tp(aflare1(timeobs[flare], df.Tpeak[flare], np.max([df.sFwhm[flare],df.sfwhm[flare]]), np.max([df.sAmpl[flare],df.sampl[flare]]))) * 1/T)
         i = i + 1
 
     brightness_flare = np.asarray(brightness_flare)
