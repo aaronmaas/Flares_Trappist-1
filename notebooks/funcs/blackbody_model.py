@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.constants as c
 
 
 def brightness_mod(wavelength_tot, limit, T_flare, a, fluxdensity_tot, T_star, R_star, dist_star, model = "thick"):
