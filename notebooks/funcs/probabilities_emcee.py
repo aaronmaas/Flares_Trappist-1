@@ -27,11 +27,11 @@ def log_probability(theta, x, y, yerr, limit, fluxdensity_star, T_star,R_star, d
     return lp + log_likelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, dist_star)
     
 
-def plot_walker_emcee(samples):
+def plot_walker_emcee(samples,labels = ["T", "a"]):
     
     #Analysis Plot Walker
    
-    labels = ["T", "a"]
+    
     for j in range(len(samples)):
         fig, axes = plt.subplots(2, figsize=(10, 7), sharex=True)
         for i in range(len(labels)):
@@ -43,16 +43,18 @@ def plot_walker_emcee(samples):
             ax.yaxis.set_label_coords(-0.1, 0.5)
             axes[-1].set_xlabel("step number");
     return 
-    
+
 def plot_corner_emcee(samples_flat):
     labels = ["T","a"]
     for j in range(len(samples_flat)):
         fig = corner.corner(
-        samplesflat_total[j], labels=labels
+        samples_flat[j], labels=labels
         );
     return 
 
-def display_median_from_chain(samplesflat):
+from IPython.display import display, Math
+
+def display_median_from_chain(samplesflat, labels = ["T", "a"]):
     
     T, Terror, a, aerror = [], [], [], []
     
