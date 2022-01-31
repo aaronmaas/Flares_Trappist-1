@@ -1,7 +1,10 @@
 
 import numpy as np
+import matplotlib.pyplot as plt
 from funcs.blackbody_model import _brightness_mod
 from IPython.display import display, Math
+import corner
+
 
 def log_likelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, dist_star):
     T, a, = theta
@@ -27,18 +30,15 @@ def log_probability(theta, x, y, yerr, limit, fluxdensity_star, T_star,R_star, d
     return lp + log_likelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, dist_star)
     
 
-def plot_walker_emcee(samples,labels = ["T", "a"]):
-    
+def plot_walker_emcee(samples,labels = ["T", "a"]): 
     #Analysis Plot Walker
-   
-    
     for j in range(len(samples)):
         fig, axes = plt.subplots(2, figsize=(10, 7), sharex=True)
         for i in range(len(labels)):
             
             ax = axes[i]
-            ax.plot(samples_total[j][:, :, i], "k", alpha=0.3)
-            ax.set_xlim(0, len(samples_total[j]))
+            ax.plot(samples[j][:, :, i], "k", alpha=0.3)
+            ax.set_xlim(0, len(samples[j]))
             #ax.set_ylabel(labels[i])
             ax.yaxis.set_label_coords(-0.1, 0.5)
             axes[-1].set_xlabel("step number");
@@ -52,7 +52,6 @@ def plot_corner_emcee(samples_flat):
         );
     return 
 
-from IPython.display import display, Math
 
 def display_median_from_chain(samplesflat, labels = ["T", "a"]):
     

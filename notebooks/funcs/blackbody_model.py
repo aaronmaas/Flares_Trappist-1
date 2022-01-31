@@ -4,12 +4,14 @@ import scipy.constants as c
 def brightness_mod_continous(wavelength, T_flare, a, fluxdensity_tot, T_star, R_star, dist_star, model = "blackbody"):
     pre_factor = 1/(dist_star**2) * 2*c.h*c.c**2 /(wavelength**5) * np.pi
     flare_contribution = (a*R_star)**2/(np.exp((c.h * c.c)/(T_flare*c.k*wavelength)) -1)
+    
     if model == "blackbody": 
         star_contribution = -(a*R_star)**2/(np.exp((c.h * c.c)/(T_star*c.k*wavelength)) -1)
     else: 
-        star_contribution = -(a*R_star)**2* fluxdensity_tot * 1e7
+        star_contribution = -(a*R_star/dist_star)**2* fluxdensity_tot * 1e7 
+        #fluxdensity exaclty at the points from griz otherwise it will not work
     return pre_factor * (flare_contribution + star_contribution) 
-
+	#das mit dem dist star kommt mir sehr verdächtig vor überlege noch mal genau, wie du das einbinden musst
 def _brightness_mod(wavelength_tot, limit, T_flare, a, fluxdensity_tot, T_star, R_star, dist_star, model = "thick"):
     
     
