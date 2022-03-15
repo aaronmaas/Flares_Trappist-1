@@ -13,7 +13,7 @@ def log_likelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, d
                                                
 def log_prior_global_uniform(theta):
     T, a  = theta
-    if 3000 < T < 15000 and 0.0 < a < 1.:
+    if 2000 < T < 15000 and 0.0 < a < 1.:
         return 0.0
     return -np.inf
     
@@ -44,8 +44,8 @@ def plot_walker_emcee(samples,labels = ["T", "a"]):
             axes[-1].set_xlabel("step number");
     return 
 
-def plot_corner_emcee(samples_flat):
-    labels = ["T","a"]
+def plot_corner_emcee(samples_flat, bins = 100, labels = ["T","a"]):
+    
     for j in range(len(samples_flat)):
         fig = corner.corner(
         samples_flat[j], labels=labels
