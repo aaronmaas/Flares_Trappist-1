@@ -11,9 +11,21 @@ def log_likelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, d
     model = _brightness_mod(x, limit, T, a , fluxdensity_star, T_star, R_star, dist_star) 
     return -0.5 * (np.sum(((y - model)/yerr) ** 2 ))
                                                
+def log_loglikelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, dist_star):
+    logT, loga = theta
+    model = _brightness_mod(x, limit, 10**(logT), 10**(loga) , fluxdensity_star, T_star, R_star, dist_star) 
+    return -0.5 * (np.sum(((y - model)/yerr) ** 2 ))
+                                                                                              
+                                               
 def log_prior_global_uniform(theta):
     T, a  = theta
     if 2000 < T < 15000 and 0.0 < a < 1.:
+        return 0.0
+    return -np.inf
+    
+def log_logprior_global_uniform(theta):
+    logT, loga  = theta
+    if np.log10(2000) < logT < np.log10(15000) and -10 < loga < 0:
         return 0.0
     return -np.inf
     
@@ -22,12 +34,18 @@ def log_prior_peak_uniform(theta):
     if 3000 < T < 18000 and 0.0 < a < 1.:
         return 0.0
     return -np.inf
-
+    
 def log_probability(theta, x, y, yerr, limit, fluxdensity_star, T_star,R_star, dist_star, prior):
     lp = prior(theta)
     if not np.isfinite(lp):
         return -np.inf
     return lp + log_likelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, dist_star)
+
+def log_logprobability(theta, x, y, yerr, limit, fluxdensity_star, T_star,R_star, dist_star, logprior):
+    lp = logprior(theta)
+    if not np.isfinite(lp):
+        return -np.inf
+    return lp + log_loglikelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, dist_star)
     
 
 def plot_walker_emcee(samples,labels = ["T", "a"]): 
@@ -48,7 +66,7 @@ def plot_corner_emcee(samples_flat, bins = 100, labels = ["T","a"]):
     
     for j in range(len(samples_flat)):
         fig = corner.corner(
-        samples_flat[j], labels=labels
+        samples_flat[j], labels=labels, bins = bins
         );
     return 
 
