@@ -15,6 +15,16 @@ def log_loglikelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star
     logT, loga = theta
     model = _brightness_mod(x, limit, 10**(logT), 10**(loga) , fluxdensity_star, T_star, R_star, dist_star) 
     return -0.5 * (np.sum(((y - model)/yerr) ** 2 ))
+
+
+def log_loglikelihood_simoul(theta, x, y, yerr, x1, y1, yerr1, limit, fluxdensity_star, T_star, R_star, dist_star):
+    logT, loga, loga1 = theta
+    model = _brightness_mod(x, limit, 10**(logT), 10**(loga) , fluxdensity_star, T_star, R_star, dist_star)
+    model1 = _brightness_mod(x1, limit, 10**(logT), 10**(loga1) , fluxdensity_star, T_star, R_star, dist_star)
+    return -0.5 * (np.sum(((y - model)/yerr) ** 2 )) + -0.5 * (np.sum(((y1 - model1)/yerr1) ** 2 ))
+
+
+#combined likelihood for two models 
                                                                                               
                                                
 def log_prior_global_uniform(theta):
@@ -25,7 +35,13 @@ def log_prior_global_uniform(theta):
     
 def log_logprior_global_uniform(theta):
     logT, loga  = theta
-    if np.log10(2000) < logT < np.log10(15000) and -10 < loga < 0:
+    if np.log10(2000) < logT < np.log10(25000) and -10 < loga < 0:
+        return 0.0
+    return -np.inf
+
+def log_logprior_global_uniform_simoul(theta):
+    logT, loga, loga1  = theta
+    if np.log10(2000) < logT < np.log10(25000) and -10 < loga < 0 and -10 < loga1 < 0:
         return 0.0
     return -np.inf
     
@@ -46,6 +62,12 @@ def log_logprobability(theta, x, y, yerr, limit, fluxdensity_star, T_star,R_star
     if not np.isfinite(lp):
         return -np.inf
     return lp + log_loglikelihood(theta, x, y, yerr, limit, fluxdensity_star, T_star, R_star, dist_star)
+
+def log_logprobability_simoul(theta, x, y, yerr, x1, y1, yerr1, limit, fluxdensity_star, T_star,R_star, dist_star, logprior_simoul):
+    lp = logprior_simoul(theta)
+    if not np.isfinite(lp):
+        return -np.inf
+    return lp + log_loglikelihood_simoul(theta, x, y, yerr, x1, y1, yerr1, limit, fluxdensity_star, T_star, R_star, dist_star)
     
 
 def plot_walker_emcee(samples,labels = ["T", "a"]): 
