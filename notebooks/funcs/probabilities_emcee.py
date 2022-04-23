@@ -39,6 +39,12 @@ def log_logprior_global_uniform(theta):
         return 0.0
     return -np.inf
 
+def log_logprior_peak_uniform(theta):
+    logT, loga  = theta
+    if np.log10(2000) < logT < np.log10(45000) and -20 < loga < 0:
+        return 0.0
+    return -np.inf
+
 def log_logprior_global_uniform_simoul(theta):
     logT, loga, loga1  = theta
     if np.log10(2000) < logT < np.log10(25000) and -10 < loga < 0 and -10 < loga1 < 0:
