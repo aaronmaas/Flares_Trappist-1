@@ -3,8 +3,6 @@
 This repository contains the neccesarry modules and methods to excess all results from following work in Progress:
 
 1. Maas, A. J. et al (2022, in prep.). *Lower temperatures than expected for TRAPPIST-1 flares*
-2. Maas, A. J. et al (2022, in prep.). *Are late M-dwarfs flares really that cold? *
-
 
 #### How to navigate this repository
 
@@ -30,12 +28,6 @@ Notebooks that produce the figures and tables in the paper found in `notebooks/`
         1. Modelrecovery: Injection of flare with known temperature and projected area in fitting pipeline, to see if the model can be recovered. 
         2. Flareinjection: Injection of flare with known temeprature in MuSCAT2 lightcurves and afterwards fitting. 
         
-
-## Project 2: Are late M-dwarf flares really that cold? 
-
-Notebooks that produce the figures and tables in the paper found in `notebooks/`:
-
-- 
 
 
 ## Required Python packages
